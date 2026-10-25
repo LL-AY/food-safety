@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能配菜 · 食养本草</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="peicai.css">
+</head>
+<body class="peicai-page">
+
+<!-- 顶部导航（与主站一致，新增「智能配菜」入口） -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-logo">🌿</span>
+      <span class="brand-txt"><b>食养本草</b><small>食品健康 · 中医食疗</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#search-section">食物查询</a>
+      <a href="index.html#compare-section">食材对比</a>
+      <a href="index.html#plant-section">植物知识</a>
+      <a href="index.html#pairing-section">搭配知识</a>
+      <a href="index.html#food-grid-section">食材库</a>
+      <a href="peicai.html" class="active">智能配菜 ✨</a>
+    </nav>
+  </div>
+</header>
+
+<main class="pc-main">
+  <!-- ========== 左栏 25%：食材库 ========== -->
+  <aside class="pc-panel pc-left">
+    <div class="pc-panel-head">
+      <h2>🥗 食材库</h2>
+      <p class="pc-sub">拖拽食材到中间画布</p>
+    </div>
+    <div class="pc-search">
+      <input type="text" id="pcSearch" placeholder="搜索食材名称…">
+    </div>
+    <div class="pc-cats" id="pcCats"></div>
+    <div class="pc-foodlist" id="pcFoodList"></div>
+  </aside>
+
+  <!-- ========== 中栏 35%：搭配画布 ========== -->
+  <section class="pc-panel pc-center">
+    <!-- 操作栏 -->
+    <div class="pc-toolbar">
+      <div class="tb-group">
+        <label>用餐人数</label>
+        <div class="stepper">
+          <button type="button" id="pplMinus">−</button>
+          <span id="pplVal">1</span>
+          <button type="button" id="pplPlus">+</button>
+        </div>
+      </div>
+      <div class="tb-group">
+        <label>口味</label>
+        <div class="seg" id="tasteSeg">
+          <button type="button" data-t="light" class="on">清淡</button>
+          <button type="button" data-t="std">标准</button>
+          <button type="button" data-t="heavy">重口</button>
+        </div>
+      </div>
+      <button type="button" class="tb-clear" id="pcClear">清空画布</button>
+    </div>
+
+    <!-- 风险提示条 -->
+    <div class="pc-alert" id="pcAlert" hidden></div>
+
+    <!-- 画布 -->
+    <div class="pc-canvas" id="pcCanvas">
+      <div class="pc-empty" id="pcEmpty">
+        <div class="pc-empty-ico">🍳</div>
+        <p>拖拽左侧食材到这里</p>
+        <p class="pc-empty-sub">解锁搭配提示、菜品做法与营养数据</p>
+      </div>
+      <div class="pc-canvas-list" id="pcCanvasList"></div>
+    </div>
+
+    <!-- 底部常驻图例 -->
+    <div class="pc-legend">
+      <span class="lg-item"><i class="badge-badge lg-x">✕</i>禁忌搭配</span>
+      <span class="lg-item"><i class="badge-badge lg-o">○</i>不适宜搭配</i></span>
+      <span class="lg-item"><i class="badge-badge lg-v"></i>推荐搭配</span>
+      <span class="lg-hint">点击食材角标查看判定详情</span>
+    </div>
+  </section>
+
+  <!-- ========== 右栏 40%：结果区 ========== -->
+  <aside class="pc-panel pc-right">
+    <div class="pc-right-scroll">
+
+      <!-- 营养分析 -->
+      <section class="r-block">
+        <h3 class="r-title"><span class="r-bar"></span>实时营养分析<span class="r-extra" id="nutTotalW">总重 0g</span></h3>
+        <div class="nut-grid" id="nutGrid">
+          <div class="nut-empty">添加食材后显示营养数据</div>
+        </div>
+      </section>
+
+      <!-- 辅料计算 -->
+      <section class="r-block">
+        <h3 class="r-title"><span class="r-bar"></span>辅料用量建议<span class="r-extra" id="tasteLabel">清淡档</span></h3>
+        <div class="aux-grid" id="auxGrid">
+          <div class="nut-empty">添加食材后计算辅料用量</div>
+        </div>
+        <p class="aux-note">参考《中国居民膳食指南 2022》：1小勺盐≈5g、1小勺糖≈4g、1汤勺油/生抽≈10-15g。高盐食材（海带、紫菜、虾蟹等）自带盐分已相应扣减。</p>
+      </section>
+
+      <!-- 菜品匹配 -->
+      <section class="r-block">
+        <h3 class="r-title"><span class="r-bar"></span>智能菜品匹配</h3>
+        <div id="dishList">
+          <div class="nut-empty">添加 2 种以上食材，自动匹配家常菜品</div>
+        </div>
+      </section>
+
+      <p class="pc-disclaimer">⚠ 饮食禁忌仅供参考，个体差异请遵医嘱。本页内容不构成医疗建议。</p>
+    </div>
+  </aside>
+</main>
+
+<!-- 搭配判定详情弹层 -->
+<div class="pc-modal-mask" id="pairModal" hidden>
+  <div class="pc-modal">
+    <div class="pc-modal-head">
+      <h3 id="pairModalTitle">搭配判定详情</h3>
+      <button type="button" id="pairModalClose">✕</button>
+    </div>
+    <div class="pc-modal-body" id="pairModalBody"></div>
+  </div>
+</div>
+
+<!-- 菜品做法弹层 -->
+<div class="pc-modal-mask" id="dishModal" hidden>
+  <div class="pc-modal pc-modal-wide">
+    <div class="pc-modal-head">
+      <h3 id="dishModalTitle">做法详情</h3>
+      <button type="button" id="dishModalClose">✕</button>
+    </div>
+    <div class="pc-modal-body" id="dishModalBody"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="foods_images.js"></script>
+<script src="rules.js"></script>
+<script src="dishes.js"></script>
+<script src="peicai.js"></script>
+</body>
+</html>
