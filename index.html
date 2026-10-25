@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>食养本草 · 食品健康与中医食疗科普网</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- 动态背景气泡层 -->
+<div class="bg-bubbles" aria-hidden="true">
+  <span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<!-- 顶部导航 -->
+<header class="navbar">
+  <a class="brand" href="#top">
+    <span class="brand-mark">🌿</span>
+    <span class="brand-text">食养本草 <small>食品健康 · 中医食疗</small></span>
+  </a>
+  <nav class="nav-links">
+    <a href="#search-section">食物查询</a>
+    <a href="#compare-section">食材对比</a>
+    <a href="#plant-section">植物知识</a>
+    <a href="#pairing-section">搭配知识</a>
+    <a href="#food-grid-section">食材库</a>
+    <a href="peicai.html">智能配菜 ✨</a>
+  </nav>
+</header>
+
+<main id="top">
+  <!-- 首页 Hero -->
+  <section class="hero" id="search-section">
+    <div class="hero-inner">
+      <span class="eyebrow">食品健康 · 中医食疗 · 营养科普</span>
+      <h1>了解每一口食物的<span class="accent">中医属性</span></h1>
+      <p class="hero-sub">输入食物名称，即刻获知它的性味归经、寒热偏向、营养价值与搭配宜忌。从中医视角科学认识食品健康与安全。</p>
+      <div class="search-box">
+        <input id="searchInput" type="text" placeholder="输入食物名称，如：枸杞、螃蟹、山药" autocomplete="off">
+        <button id="searchBtn" class="btn-primary">搜索</button>
+      </div>
+      <div id="searchSuggest" class="search-suggest" aria-hidden="true"></div>
+      <div class="stat-row" id="statRow">
+        <span class="stat-pill yin">偏阴 <b id="cntYin">—</b> 种</span>
+        <span class="stat-pill ping">平性 <b id="cntPing">—</b> 种</span>
+        <span class="stat-pill huo">偏火 <b id="cntHuo">—</b> 种</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目入口：植物知识 / 食品搭配 -->
+  <section class="gate-grid">
+    <a class="gate-card plant" href="#plant-section">
+      <div class="gate-emoji">🌱</div>
+      <h2>植物知识普及</h2>
+      <p>探寻常见食材的植物学特征、产地与中医认识</p>
+    </a>
+    <a class="gate-card pairing" href="#pairing-section">
+      <div class="gate-emoji">🥢</div>
+      <h2>食品搭配知识</h2>
+      <p>从中医视角解析食物搭配宜忌与寒热平衡</p>
+    </a>
+  </section>
+
+  <!-- 食材双选对比工具 -->
+  <section class="section compare-section" id="compare-section">
+    <div class="section-head">
+      <h2>食材双选对比</h2>
+      <p>选择两种食材，直观对比寒热属性、营养差异及各自的优缺点。</p>
+    </div>
+    <div class="compare-tool">
+      <div class="compare-side">
+        <label for="cmpA">选择第一种食材</label>
+        <select id="cmpA" class="cmp-select"></select>
+      </div>
+      <div class="vs-badge">VS</div>
+      <div class="compare-side">
+        <label for="cmpB">选择第二种食材</label>
+        <select id="cmpB" class="cmp-select"></select>
+      </div>
+    </div>
+    <button id="cmpBtn" class="btn-primary btn-block">开始对比</button>
+    <div id="cmpResult" class="cmp-result" aria-live="polite"></div>
+  </section>
+
+  <!-- 精选食材卡片 -->
+  <section class="section food-grid-section" id="food-grid-section">
+    <div class="section-head">
+      <h2>精选食材</h2>
+      <p>点击卡片，查看中医属性与搭配宜忌</p>
+      <div class="filter-tabs" id="filterTabs">
+        <button class="tab active" data-cat="全部">全部</button>
+        <button class="tab" data-cat="药食同源">药食同源</button>
+        <button class="tab" data-cat="蔬菜">蔬菜</button>
+        <button class="tab" data-cat="水果">水果</button>
+        <button class="tab" data-cat="水产">水产</button>
+        <button class="tab" data-cat="肉类">肉类</button>
+        <button class="tab" data-cat="谷物豆类">谷物豆类</button>
+        <button class="tab" data-cat="蛋奶调料">蛋奶调料</button>
+      </div>
+    </div>
+    <div id="foodGrid" class="food-grid"></div>
+    <div class="grid-pager">
+      <button id="loadMoreBtn" class="btn-outline">加载更多 ↓</button>
+      <span id="gridCount" class="grid-count"></span>
+    </div>
+  </section>
+
+  <!-- 植物知识普及 -->
+  <section class="section knowledge-section" id="plant-section">
+    <div class="section-head"><h2>植物知识普及</h2><p>了解食材的植物学本源与中医千年认识</p></div>
+    <div class="article-list" id="plantList"></div>
+  </section>
+
+  <!-- 食品搭配知识 -->
+  <section class="section knowledge-section alt" id="pairing-section">
+    <div class="section-head"><h2>食品搭配知识</h2><p>寒热平衡 · 相宜相克 · 四季调养</p></div>
+    <div class="article-list" id="pairingList"></div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>普及食品健康 · 传承中医食疗智慧</p>
+  <p class="small">本站内容仅供科普参考，不能替代专业医疗建议。© 2026 食养本草</p>
+</footer>
+
+<!-- 食物详情弹窗 -->
+<div id="detailModal" class="modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-dialog" role="dialog" aria-modal="true">
+    <button class="modal-close" data-close aria-label="关闭">×</button>
+    <div id="detailBody" class="modal-body"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="foods_images.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
